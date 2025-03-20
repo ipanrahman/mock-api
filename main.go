@@ -39,7 +39,7 @@ func main() {
 	}
 
 	app := fiber.New(fiber.Config{
-		Prefork:       true, // Improves performance by running multiple processes
+		Prefork:       true,
 		CaseSensitive: true,
 	})
 
@@ -91,12 +91,21 @@ func getMockFilePath(root, path, method string, queries map[string]string) strin
 	method = strings.ToLower(method)
 	queryString := getSortedQueryString(queries)
 
-	// Check possible file paths
-	files := []string{
-		filepath.Join(root, path+"_"+method+".json"),
-		filepath.Join(root, path+"_"+method+"_"+queryString+".json"),
+	// Normalize path
+	path = strings.Trim(path, "/")
+	if path == "" {
+		path = "index"
 	}
 
+	// Possible file paths
+	files := []string{
+		filepath.Join(root, path+"_"+method+".json"),                       // e.g., data/pets_get.json
+		filepath.Join(root, path+"_"+method+"_"+queryString+".json"),       // e.g., data/pets_get_id=10.json
+		filepath.Join(root, path, "index_"+method+".json"),                 // e.g., data/pets/index_get.json
+		filepath.Join(root, path, "index_"+method+"_"+queryString+".json"), // e.g., data/pets/index_get_id=10.json
+	}
+
+	// Check existence of each possible file
 	for _, file := range files {
 		if _, err := os.Stat(file); err == nil {
 			return file
