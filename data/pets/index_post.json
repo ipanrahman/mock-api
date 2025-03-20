@@ -1,0 +1,11 @@
+{
+  "status": 201,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "id": 3,
+    "name": "Charlie",
+    "tag": "parrot"
+  }
+}
