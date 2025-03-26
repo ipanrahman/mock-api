@@ -1,24 +1,26 @@
 package main
 
 import (
-	"log"
+	"fmt"
+	"log/slog"
 	"mock-api/internal/config"
 	httpDelivery "mock-api/internal/delivery/http"
 	"mock-api/internal/repository"
 	"mock-api/internal/usecase"
-	"mock-api/internal/utils"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	_ = godotenv.Load()
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	cfg := &config.Config{
-		Port:    utils.Env("PORT", "8080"),
-		MockDir: utils.Env("MOCK_DIR", "./data"),
+	if err := godotenv.Load(); err != nil {
+		logger.Error("Error loading .env file", err)
 	}
+
+	cfg := config.NewConfig()
 
 	app := fiber.New(fiber.Config{
 		Prefork:       false,
@@ -31,6 +33,7 @@ func main() {
 
 	app.All("*", mockHandler.Handle)
 
-	log.Printf("Mock API server running on http://localhost:%s 🚀", cfg.Port)
-	log.Fatalf("%v", app.Listen(":"+cfg.Port))
+	fmt.Println("Listening on port " + cfg.Port)
+	logger.Info(fmt.Sprintf("Mock API server running on http://localhost:%s 🚀", cfg.Port))
+	logger.Info(fmt.Sprintf("%v", app.Listen(":"+cfg.Port)))
 }

@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mock-api/internal/common/utils"
 	"mock-api/internal/config"
 	"mock-api/internal/domain"
 	"mock-api/internal/repository"
-	"mock-api/internal/utils"
 	"regexp"
 	"strings"
 

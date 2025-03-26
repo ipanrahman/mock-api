@@ -1,6 +1,8 @@
 package config
 
-import "mock-api/internal/utils"
+import (
+	"mock-api/internal/common/utils"
+)
 
 type Config struct {
 	Port    string
