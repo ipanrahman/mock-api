@@ -43,11 +43,17 @@ func (f *fileRepository) FindFilePath(root, path, method string, queries map[str
 		path = "index"
 	}
 
-	files := []string{
-		filepath.Join(root, path+"_"+method+".json"),
-		filepath.Join(root, path+"_"+method+"_"+queryString+".json"),
-		filepath.Join(root, path, "index_"+method+".json"),
-		filepath.Join(root, path, "index_"+method+"_"+queryString+".json"),
+	var files []string
+	if len(queryString) > 0 {
+		files = append(files,
+			filepath.Join(root, path+"_"+method+"_"+queryString+".json"),
+			filepath.Join(root, path, "index_"+method+"_"+queryString+".json"),
+		)
+	} else {
+		files = append(files,
+			filepath.Join(root, path+"_"+method+".json"),
+			filepath.Join(root, path, "index_"+method+".json"),
+		)
 	}
 
 	for _, file := range files {

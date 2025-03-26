@@ -1,0 +1,16 @@
+{
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "category": "electronics",
+          "id": 101,
+          "name": "Laptop Pro Cold",
+          "price": 1500,
+          "stock": 10
+        }
+      ]
+    }
+  }
+}
