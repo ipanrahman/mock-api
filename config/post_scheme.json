@@ -1,0 +1,51 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer token123"
+    },
+    "query_params": {
+      "page": "1",
+      "limit": "10"
+    },
+    "body": {
+      "name": "Kuching",
+      "tag": "cat",
+      "id": 1
+    },
+    "validations": {
+      "headers": {
+        "Authorization": {
+          "equal": "Bearer token123"
+        }
+      },
+      "query_params": {
+        "page": {
+          "gt": "0"
+        },
+        "limit": {
+          "lte": "100"
+        }
+      },
+      "body": {
+        "name": {
+          "pattern": "^[A-Za-z ]+$"
+        },
+        "id": {
+          "gt": "0"
+        }
+      }
+    }
+  },
+  "response": {
+    "status_code": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Kuching",
+      "tag": "cat",
+      "id": 1
+    }
+  }
+}

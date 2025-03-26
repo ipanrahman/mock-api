@@ -1,0 +1,70 @@
+{
+  "request": {
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer valid_token"
+    },
+    "body": {
+      "name": "Laptop Pro",
+      "price": 1500,
+      "category": "electronics",
+      "stock": 10
+    }
+  },
+  "conditions": [
+    {
+      "field": "price",
+      "operator": "greater_than",
+      "value": 5000,
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "error": {
+            "type": "ERROR_VALIDATION",
+            "message": "Data validation is incorrect, please check again",
+            "details": [
+              {
+                "field": "price",
+                "reason": "gte",
+                "description": "Price must not exceed $5000"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "field": "stock",
+      "operator": "equals",
+      "value": 0,
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "error": "Stock cannot be zero"
+        }
+      }
+    }
+  ],
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "message": "Product created successfully",
+      "product": {
+        "id": 101,
+        "name": "Laptop Pro",
+        "price": 1500,
+        "category": "electronics",
+        "stock": 10
+      }
+    }
+  }
+}
